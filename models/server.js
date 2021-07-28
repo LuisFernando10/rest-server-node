@@ -21,8 +21,29 @@
         }
 
         routes() {
+            
             this.app.get('/api/', (req, res) => {
-                res.send('Hellooo World!!');
+                res.json({
+                    message: 'GET API'
+                });
+            });
+
+            this.app.put('/api/', (req, res) => {
+                res.json({
+                    message: 'PUT API'
+                });
+            })
+
+            this.app.post('/api/', (req, res) => {
+                res.json({
+                    message: 'POST API'
+                });
+            })
+
+            this.app.delete('/api/', (req, res) => {
+                res.json({
+                    message: 'DELETE API'
+                });
             })
         }
 
