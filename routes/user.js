@@ -15,7 +15,7 @@
 
     router.post('/', usersPost );
 
-    router.put('/', usersPut );
+    router.put('/:id', usersPut );
 
     router.patch('/', usersPatch );
 

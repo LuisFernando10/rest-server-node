@@ -1,9 +1,17 @@
 
-    const { response } = require('express');
+    const { response, request } = require('express');
     
-    const usersGet = (req, res = response) => {
+    const usersGet = (req = request, res = response) => {
+
+        const { q, nombre = 'Not Name', apikey, page = '1', limit } = req.query;
+
         res.json({
-            message: 'GET API - controllador'
+            message: 'GET API - controllador',
+            q,
+            nombre,
+            apikey,
+            page,
+            limit
         });
     };
 
@@ -20,8 +28,12 @@
     };
 
     const usersPut = (req, res = response) => {
+
+        const { id } = req.params;
+
         res.json({
-            message: 'PUT API - controllador'
+            message: 'PUT API - controllador',
+            id
         });
     };
 
