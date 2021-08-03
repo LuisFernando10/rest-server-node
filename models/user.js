@@ -15,9 +15,6 @@
             type: String,
             required: [true, 'La contraseña es obligatoria.']
         },
-        nombre: {
-            type: String
-        },
         rol: {
             type: String,
             required: true,
@@ -33,4 +30,4 @@
         }
     });
 
-    module.exports = model( 'Usuario', UsuarioSchema );
+    module.exports = model( 'Usuario', userSchema );
