@@ -15,6 +15,9 @@
             type: String,
             required: [true, 'La contraseña es obligatoria.']
         },
+        image: {
+            type: String
+        },
         rol: {
             type: String,
             required: true,
