@@ -3,6 +3,7 @@
     const bcryptjs = require('bcryptjs');
 
     const User = require('../models/user');
+const { validationResult } = require('express-validator');
     
     const usersGet = (req = request, res = response) => {
 
@@ -20,10 +21,21 @@
 
     const usersPost = async(req, res = response) => {
 
+        const errors = validationResult( req );
+        if( !errors.isEmpty() ){
+            return res.status(400).json(errors);
+        }
+        
         const { nombre, correo, password, rol } = req.body;
         const user = new User( { nombre, correo, password, rol } );
 
         // Verificar existencia correo
+        const extistEmail = await User.findOne({ correo });
+        if ( extistEmail ){
+            return rest.status(400).json({
+                message: 'El correo no está disponible.'
+            });
+        }
 
         // Encriptar contraseña
         const salt = bcryptjs.genSaltSync();
