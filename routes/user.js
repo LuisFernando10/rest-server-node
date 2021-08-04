@@ -1,6 +1,7 @@
 
     const { Router } = require('express');
     const { check } = require('express-validator');
+    const Role = require('../models/rol');
 
     const { validateFields } = require('../middlewares/validate-fields');
     
@@ -20,7 +21,15 @@
         check('nombre', 'El nombre es obligatorio.').not().isEmpty(),
         check('password', 'La contraseña debe ser más de 6 caracteres.').isLength({ min: 6 }),
         check('correo', 'El correo no es válido.').isEmail(),
-        check('rol', 'No es un rol permitido.').isIn(['ADMIN', 'USER']),
+        //check('rol', 'No es un rol permitido.').isIn(['ADMIN', 'USER']),
+        check('rol').custom( async(rol = '') => {
+            console.log(rol, Role)
+            const existRol = await Role.findOne({ rol });
+            console.log('Rol =>', existRol)
+            if ( !existRol ) {
+                throw new Error(`El rol ${ rol } no existe en la colección.`)
+            }
+        }),
         validateFields
     ], usersPost );
 
