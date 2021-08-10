@@ -1,7 +1,7 @@
 
     const { Router } = require('express');
     const { check } = require('express-validator');
-    const Role = require('../models/rol');
+    const Role = require('../models/role');
 
     const { validateFields } = require('../middlewares/validate-fields');
     
@@ -23,9 +23,8 @@
         check('correo', 'El correo no es válido.').isEmail(),
         //check('rol', 'No es un rol permitido.').isIn(['ADMIN', 'USER']),
         check('rol').custom( async(rol = '') => {
-            console.log(rol, Role)
+            
             const existRol = await Role.findOne({ rol });
-            console.log('Rol =>', existRol)
             if ( !existRol ) {
                 throw new Error(`El rol ${ rol } no existe en la colección.`)
             }

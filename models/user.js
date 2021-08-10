@@ -21,7 +21,7 @@
         rol: {
             type: String,
             required: true,
-            enum: ['ADMIN', 'USER']
+            enum: ['ADMIN', 'USER', 'VENTAS']
         },
         estado: {
             type: Boolean,
