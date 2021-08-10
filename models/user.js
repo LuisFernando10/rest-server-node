@@ -33,4 +33,10 @@
         }
     });
 
+    // Sobreescribimos el método 'toJSON' para no mostrar en la respuesta los campos que no deseemos
+    userSchema.methods.toJSON = function() {
+        const { __v, password, ...usuario } = this.toObject(); // '...usuario', lo que hace es que usa el operador (... 'rest') para unificar las propiedades faltantes en uno solo llamado 'usuario (no importa el nombre)' 
+        return usuario;
+    }
+
     module.exports = model( 'Usuario', userSchema );
