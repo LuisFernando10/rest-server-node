@@ -7,11 +7,19 @@
     const usersGet = async(req = request, res = response) => {
 
         const { limit = isNaN(limit) ? 0 : limit, from = 0 } = req.query;
-        const users = await User.find()
-            .skip( Number(from) )
-            .limit( Number(limit) );
+        const status = { estado: true };
 
-        res.json(users);
+        const [ total, users ] = await Promise.all([
+            User.countDocuments( status ),
+            User.find( status )
+                .skip( Number(from) )
+                .limit( Number(limit) )
+        ]);
+
+        res.json({
+            total,
+            users
+        });
     };
 
     const usersPost = async(req, res = response) => {
