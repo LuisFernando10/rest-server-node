@@ -4,18 +4,14 @@
 
     const User = require('../models/user');
     
-    const usersGet = (req = request, res = response) => {
+    const usersGet = async(req = request, res = response) => {
 
-        const { q, nombre = 'Not Name', apikey, page = '1', limit } = req.query;
+        const { limit = isNaN(limit) ? 0 : limit, from = 0 } = req.query;
+        const users = await User.find()
+            .skip( Number(from) )
+            .limit( Number(limit) );
 
-        res.json({
-            message: 'GET API - controllador',
-            q,
-            nombre,
-            apikey,
-            page,
-            limit
-        });
+        res.json(users);
     };
 
     const usersPost = async(req, res = response) => {
@@ -49,10 +45,7 @@
 
         const user = await User.findByIdAndUpdate( id, rest );
 
-        res.json({
-            message: 'PUT API - controllador',
-            user
-        });
+        res.json(user);
     };
 
     const usersPatch = (req, res = response) => {
