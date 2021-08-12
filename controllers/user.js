@@ -62,10 +62,17 @@
         });
     };
 
-    const usersDelete = (req, res = response) => {
-        res.json({
-            message: 'DELETE API - controllador'
-        });
+    const usersDelete = async(req, res = response) => {
+
+        const { id } = req.params;
+        
+        // Borrado físico
+        //const user = await User.findByIdAndDelete( id );
+
+        // Borrado por estado
+        const user = await User.findByIdAndUpdate( id, { estado: false } );
+
+        res.json(user);
     };
 
     module.exports = {
