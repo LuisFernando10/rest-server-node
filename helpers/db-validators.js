@@ -19,7 +19,17 @@
         }
     }
 
+    const existUserById = async( id ) => {
+
+        const extistUser = await User.findById(id);
+
+        if ( !extistUser ) {
+            throw new Error(`El ID ${ id } no está disponible.`);
+        }
+    }
+
     module.exports = {
         isRolValidate,
-        existEmailInDb
+        existEmailInDb,
+        existUserById
     }

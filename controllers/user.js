@@ -38,7 +38,7 @@
     const usersPut = async(req, res = response) => {
 
         const { id } = req.params;
-        const { password, google, correo, ...rest } = req.body;
+        const { _id, password, google, correo, ...rest } = req.body;
 
         // Validar contra BD
         if ( password ) {

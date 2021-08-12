@@ -3,7 +3,7 @@
     const { check } = require('express-validator');
 
     const { validateFields } = require('../middlewares/validate-fields');
-    const { isRolValidate, existEmailInDb } = require('../helpers/db-validators');
+    const { isRolValidate, existEmailInDb, existUserById } = require('../helpers/db-validators');
     
     const { 
         usersGet,
@@ -31,7 +31,12 @@
 
     
     // PUT
-    router.put('/:id', usersPut );
+    router.put('/:id', [
+        check('id', 'No es un ID válido.').isMongoId(),
+        check('id').custom( existUserById ),
+        check('rol').custom( isRolValidate ),
+        validateFields
+    ], usersPut );
 
     // PATCH
     router.patch('/', usersPatch );
