@@ -35,13 +35,23 @@
         });
     };
 
-    const usersPut = (req, res = response) => {
+    const usersPut = async(req, res = response) => {
 
         const { id } = req.params;
+        const { password, google, correo, ...rest } = req.body;
+
+        // Validar contra BD
+        if ( password ) {
+            // Encriptar contraseña
+            const salt = bcryptjs.genSaltSync();
+            rest.password = bcryptjs.hashSync( password, salt );
+        }
+
+        const user = await User.findByIdAndUpdate( id, rest );
 
         res.json({
             message: 'PUT API - controllador',
-            id
+            user
         });
     };
 

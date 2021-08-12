@@ -15,8 +15,10 @@
 
     const router = Router(); // Se le configurarán las rutas
 
+    // GET
     router.get('/', usersGet );
 
+    // POST
     router.post('/', [
         check('nombre', 'El nombre es obligatorio.').not().isEmpty(),
         check('password', 'La contraseña debe ser más de 6 caracteres.').isLength({ min: 6 }),
@@ -27,10 +29,14 @@
         validateFields
     ], usersPost );
 
+    
+    // PUT
     router.put('/:id', usersPut );
 
+    // PATCH
     router.patch('/', usersPatch );
 
+    // DELETE
     router.delete('/', usersDelete );
 
     module.exports = router;
