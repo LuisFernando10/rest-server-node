@@ -23,14 +23,6 @@
         const { nombre, correo, password, rol } = req.body;
         const user = new User( { nombre, correo, password, rol } );
 
-        // Verificar existencia correo
-        const extistEmail = await User.findOne({ correo });
-        if ( extistEmail ){
-            return res.status(400).json({
-                message: 'El correo no está disponible.'
-            });
-        }
-
         // Encriptar contraseña
         const salt = bcryptjs.genSaltSync();
         user.password = bcryptjs.hashSync( password, salt );
@@ -39,7 +31,6 @@
         await user.save();
 
         res.json({
-            message: 'POST API - controllador',
             user
         });
     };
