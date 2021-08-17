@@ -8,7 +8,9 @@
         constructor() {
             this.app = express();
             this.port = process.env.PORT;
+
             this.userPath = '/api/usuarios/';
+            this.authPath = '/api/auth/';
 
             // Conectar BD
             this.connectDB();
@@ -38,6 +40,7 @@
 
         routes() {
             
+            this.app.use(this.authPath, require('../routes/auth'));
             this.app.use(this.userPath, require('../routes/user'));
         }
 
