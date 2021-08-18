@@ -1,8 +1,10 @@
 
     const { response, request } = require('express');
     const jwt = require('jsonwebtoken');
+
+    const User = require('../models/user');
     
-    const validateJWT = ( req = request, res = response, next ) => {
+    const validateJWT = async( req = request, res = response, next ) => {
 
         const token = req.header('custom-token');
 
@@ -15,9 +17,23 @@
         try {
 
             const { uid } = jwt.verify( token, process.env.SECRETORPRIVATEKEY );
+            const user = await User.findById( uid );
 
-            req.uid = uid;
+            // Validar que el usuario exista en la colección(DB)
+            if ( !user ){
+                return res.status(401).json({
+                    message: 'El usuario no existe - Usuario Eliminado'
+                });
+            }
+            
+            // Validar usuario con estado 'false'
+            if ( !user.estado ) {
+                return res.status(401).json({
+                    message: 'El usuario no está activo - estado "false"'
+                });
+            }
 
+            req.user = user;
             next();
 
         } catch (error) {
